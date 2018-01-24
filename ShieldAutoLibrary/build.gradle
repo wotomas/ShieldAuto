@@ -1,0 +1,18 @@
+apply plugin: 'java-library'
+apply plugin: 'java-gradle-plugin'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+}
+
+gradlePlugin {
+    plugins {
+        shield {
+            id = '0.0.1'
+            implementationClass = 'info.kimjihyok.shieldautolibrary.ShieldAuto'
+        }
+    }
+}
+
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"
