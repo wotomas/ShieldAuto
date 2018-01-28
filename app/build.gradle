@@ -1,5 +1,10 @@
 apply plugin: 'com.android.application'
-apply plugin: ShieldAuto
+//apply plugin: 'info.kimjihyok.ShieldAuto'
+
+//shieldConfig {
+//    proguardFile = file('shield/shield-proguard-rules.pro')
+//    xmlMapperFile = file('shield/shield.xml')
+//}
 
 android {
     compileSdkVersion 26
@@ -11,12 +16,23 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+    lintOptions {
+        abortOnError false
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-//            , ShieldAuto.apply()
+//            , shieldConfig.default
         }
+    }
+}
+
+task checkProguardFile {
+    doLast {
+        println(" " + shieldConfig.proguardFilePath)
     }
 }
 

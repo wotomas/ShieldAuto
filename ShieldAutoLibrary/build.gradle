@@ -1,5 +1,15 @@
 apply plugin: 'java-library'
 apply plugin: 'java-gradle-plugin'
+apply plugin: 'com.novoda.bintray-release'
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.novoda:bintray-release:0.4.0'
+    }
+}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -7,11 +17,20 @@ dependencies {
 
 gradlePlugin {
     plugins {
-        shield {
-            id = '0.0.1'
-            implementationClass = 'info.kimjihyok.shieldautolibrary.ShieldAuto'
+        shieldAuto {
+            id = "info.kimjihyok.ShieldAuto"
+            implementationClass = "info.kimjihyok.shieldautolibrary.ShieldAuto"
         }
     }
+}
+
+publish {
+    userOrg = 'wotomas'
+    groupId = 'info.kimjihyok'
+    artifactId = 'ShieldAuto'
+    publishVersion = '0.0.2'
+    desc = 'Android Gradle plugin for proguard file auto generation depending on imported dependencies'
+    website = 'https://github.com/wotomas/ShieldAuto'
 }
 
 sourceCompatibility = "1.7"
