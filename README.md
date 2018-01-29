@@ -5,12 +5,12 @@
 
 We were tried of fetching proguard config files for every libraries that were needed to be included in release APK. By using [ShieldAuto](https://github.com/wotomas/ShieldAuto/) developers don't have to worry about checking proguard config file to check if setup is correct for each imported libraries.
 
-ShieldAuto is a Java based Gradle plugin to manage proguard config for release build. 
-
+[ShieldAuto](https://github.com/wotomas/ShieldAuto/) checks your dependencies extension defined in the build.gradle file to check for matching proguard and generates an simple proguard config file. [ShieldAuto](https://github.com/wotomas/ShieldAuto/) is a Java based Gradle plugin to manage proguard config for release build.
+ 
 This is still a premature version and any helps are welcome. Test cases, refactoring, optimization, bug fixes and adding any libraries are welcome. Current State diagram is as following: 
 
 # State Diagram
-[<img src="media/state_diagram" width="800" />]()
+[<img src="media/state_diagram.png" width="800" />]()
 
 # How to use?
 ```gradle
