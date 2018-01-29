@@ -15,10 +15,14 @@ public class ShieldAutoExtension {
     }
 
     public String getDefaultPath() {
-        return project.getRootDir().getPath() + defaultPath;
+        return defaultPath;
     }
 
     public void setDefaultPath(String defaultPath) {
         this.defaultPath = defaultPath;
+    }
+
+    public String auto() {
+        return project.getRootDir().getPath() + defaultPath;
     }
 }

@@ -1,7 +1,0 @@
-<shield type="libraries">
-    <path name="butterknife">app/shield/butterknife/proguard.txt</path>
-    <path name="retrofit">app/shield/retrofit/proguard.txt</path>
-    <path name="stetho">app/shield/stetho/proguard.txt</path>
-    <path name="glide">app/shield/glide/proguard.txt</path>
-    <path name="rxjava">app/shield/rxjava/proguard.txt</path>
-</shield>
