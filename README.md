@@ -67,7 +67,7 @@ Request for additional libraries could be submitted through issues. Pull request
 # License
 Copyright (C) 2018 Kim Jihyok
 
-See the file copyright/LICENSE.txt.
+See the file [License](https://github.com/wotomas/ShieldAuto/blob/master/LICENSE)
 
 # Development and Contribution
 We are open for any contributions. Please use the issue tickets for communication before sending pull requests.
