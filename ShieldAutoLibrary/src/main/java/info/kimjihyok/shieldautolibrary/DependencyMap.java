@@ -19,35 +19,9 @@ import javax.xml.parsers.ParserConfigurationException;
 /**
  * Created by jihyokkim on 2018. 1. 29..
  */
-public class DependencyVersionMap extends HashMap<String, String> {
-    private static final String BUTTERKNIFE_KEY = "butterknife";
-    private static final String RETROFIT_KEY = "retrofit";
-    private static final String STETHO_KEY = "stetho";
-    private static final String GLIDE_KEY = "glide";
-    private static final String RXJAVA_KEY = "rxjava";
+public class DependencyMap extends HashMap<String, String> {
+    public DependencyMap() {
 
-    public DependencyVersionMap() {
-
-    }
-
-    public void putButterknifeConfig(String proguardConfig) {
-        put(BUTTERKNIFE_KEY, proguardConfig);
-    }
-
-    public void putRetrofitConfig(String proguardConfig) {
-        put(RETROFIT_KEY, proguardConfig);
-    }
-
-    public void putStethoConfig(String proguardConfig) {
-        put(STETHO_KEY, proguardConfig);
-    }
-
-    public void putGlideConfig(String proguardConfig) {
-        put(GLIDE_KEY, proguardConfig);
-    }
-
-    public void putRxJavaConfig(String proguardConfig) {
-        put(RXJAVA_KEY, proguardConfig);
     }
 
     void initializeWithXML(InputStream inputStream) {
@@ -60,7 +34,6 @@ public class DependencyVersionMap extends HashMap<String, String> {
             for (int i = 0; i < list.getLength(); i++) {
                 Element path = (Element) list.item(i);
                 put(path.getAttribute("name"), path.getTextContent());
-                System.out.println(" -> " + path.getAttribute("name") + " : " + path.getTextContent());
             }
         } catch (Exception exceptions) {
             exceptions.printStackTrace();

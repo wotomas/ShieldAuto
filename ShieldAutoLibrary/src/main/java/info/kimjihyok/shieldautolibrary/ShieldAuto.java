@@ -1,28 +1,15 @@
 package info.kimjihyok.shieldautolibrary;
 
-import org.gradle.api.Action;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
-import org.gradle.api.artifacts.Configuration;
-import org.gradle.api.artifacts.Dependency;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.function.Consumer;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 
 
 /**
@@ -31,15 +18,15 @@ import javax.xml.parsers.DocumentBuilderFactory;
  */
 public class ShieldAuto implements Plugin<Project> {
     private static final String DEFAULT_XML_PATH = "default-shield.xml";
-    private static String DEFAULT_PROGUARD_PATH;
-    private DependencyVersionMap versionMap;
+    private DependencyMap versionMap;
     private String proguardFileContent = "";
+    private String proguardIncludedText = "";
+    private String proguardExcludedText = "";
 
     @Override
     public void apply(Project project) {
         final ShieldAutoExtension extension = project.getExtensions().create("shieldAuto", ShieldAutoExtension.class, project);
-        DEFAULT_PROGUARD_PATH = extension.getDefaultPath();
-        versionMap = new DependencyVersionMap();
+        versionMap = new DependencyMap();
 
         // local flow
         ClassLoader classLoader = this.getClass().getClassLoader();
@@ -48,7 +35,9 @@ public class ShieldAuto implements Plugin<Project> {
 
         project.afterEvaluate(projec -> {
             File inputFile = new File(extension.getDefaultPath());
+
             projec.getConfigurations().getByName("compile", files -> files.getDependencies().forEach(dependency -> {
+
                 if (versionMap.containsKey(dependency.getName())) {
                     String fileContents = "";
 
@@ -61,11 +50,14 @@ public class ShieldAuto implements Plugin<Project> {
 
                         fileContents = text;
                         versionMap.put(dependency.getName(), text);
+                        proguardIncludedText += dependency.getName() + ", ";
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
 
                     proguardFileContent += fileContents + "\n";
+                } else {
+                    proguardExcludedText += dependency.getName() + ", ";
                 }
             }));
 
@@ -73,15 +65,12 @@ public class ShieldAuto implements Plugin<Project> {
                 FileWriter f2 = new FileWriter(inputFile, false);
                 f2.write(proguardFileContent);
                 f2.close();
+                System.out.println("ShieldAuto Proguard Included libraries: " + proguardIncludedText);
+                System.out.println("ShieldAuto Proguard Excluded libraries: " + proguardExcludedText);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
-    }
-
-    private String readFile(String path, Charset encoding) throws IOException {
-        byte[] encoded = Files.readAllBytes(Paths.get(path));
-        return new String(encoded, encoding);
     }
 
     private String convertStreamToString(InputStream is) {
