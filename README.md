@@ -3,9 +3,9 @@
 # ShieldAuto
 [![CI status](https://img.shields.io/badge/start%20with-why%3F-brightgreen.svg?style=flat)](https://github.com/wotomas/ShieldAuto) ![Download](https://api.bintray.com/packages/wotomas/maven/ShieldAuto/images/download.svg)
 
-We were tried of fetching proguard config files for every libraries that were needed to be included in release APK. By using [ShieldAuto](https://github.com/wotomas/ShieldAuto/) developers don't have to worry about checking proguard config file to check if setup is correct for each imported libraries.
+We were tired of searching for proguard configs for every library that needed to be included in release APK. By using [ShieldAuto](https://github.com/wotomas/ShieldAuto/) developers don't have to worry about checking proguard config file to check if setup is correct for each imported libraries.
 
-[ShieldAuto](https://github.com/wotomas/ShieldAuto/) checks your dependencies extension defined in the build.gradle file to check for matching proguard and generates an simple proguard config file. [ShieldAuto](https://github.com/wotomas/ShieldAuto/) is a Java based Gradle plugin to manage proguard config for release build.
+[ShieldAuto](https://github.com/wotomas/ShieldAuto/) checks your dependencies extension defined in the build.gradle file to check for matching proguard and to generate a simple proguard config file. In short, [ShieldAuto](https://github.com/wotomas/ShieldAuto/) is a Java based Gradle plugin to manage proguard config for release build.
  
 This is still a premature version and any helps are welcome. Test cases, refactoring, optimization, bug fixes and adding any libraries are welcome. Current State diagram is as following: 
 
@@ -45,7 +45,7 @@ android {
 ```
 
 # Note
-Currently ShieldAuto is able to check for libraries imported only through compile configuration. (Which is deprecated and should be replaced with implementation, but direct access is not allowed right now.) I would love for additional help with this issue. 
+Currently ShieldAuto is able to check for libraries imported only through *compile* configuration (which is deprecated and should be replaced with *implementation*, but direct access is not allowed right now). I would love for additional help with this issue. 
 
 # Supported Libraries
 * [BottomBar](https://github.com/roughike/BottomBar/)
