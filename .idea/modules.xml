@@ -3,7 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ShieldAuto.iml" filepath="$PROJECT_DIR$/ShieldAuto.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ShieldAuto.iml" filepath="$PROJECT_DIR$/ShieldAuto.iml" />
       <module fileurl="file://$PROJECT_DIR$/ShieldAutoLibrary/ShieldAutoLibrary.iml" filepath="$PROJECT_DIR$/ShieldAutoLibrary/ShieldAutoLibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ShieldAutoLibrary/ShieldAutoLibrary.iml" filepath="$PROJECT_DIR$/ShieldAutoLibrary/ShieldAutoLibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

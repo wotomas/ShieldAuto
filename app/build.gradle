@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-//apply plugin: 'info.kimjihyok.ShieldAuto'
+apply plugin: 'info.kimjihyok.ShieldAuto'
 
 //shieldConfig {
 //    proguardFile = file('shield/shield-proguard-rules.pro')
@@ -24,8 +24,7 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-//            , shieldConfig.default
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro', shieldAuto.getDefaultPath()
         }
     }
 }

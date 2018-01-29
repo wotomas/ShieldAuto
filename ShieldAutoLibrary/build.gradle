@@ -2,6 +2,8 @@ apply plugin: 'java-library'
 apply plugin: 'java-gradle-plugin'
 apply plugin: 'com.novoda.bintray-release'
 
+sourceSets.main.resources.srcDirs = [ "res/" ]
+
 buildscript {
     repositories {
         jcenter()
@@ -33,5 +35,5 @@ publish {
     website = 'https://github.com/wotomas/ShieldAuto'
 }
 
-sourceCompatibility = "1.7"
-targetCompatibility = "1.7"
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"

@@ -12,6 +12,8 @@ import org.w3c.dom.NodeList;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -22,88 +24,68 @@ import java.util.function.Consumer;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+
+/**
+ * ClassLoader classLoader = this.getClass().getClassLoader();
+ * InputStream inputStream = classLoader.getResourceAsStream("stages/stage_1/map.tmx");
+ */
 public class ShieldAuto implements Plugin<Project> {
-    private static final String DEFAULT_SHIELD_PATH = "./shield/";
-    private static final String DEFAULT_SHIELD_PROGUARD_FILE_NAME = "shield-proguard-rules.pro";
-    private static final String DEFAULT_SHIELD_XML_FILE_NAME = "shield.xml";
+    private static final String DEFAULT_XML_PATH = "default-shield.xml";
+    private static String DEFAULT_PROGUARD_PATH;
+    private DependencyVersionMap versionMap;
+    private String proguardFileContent = "";
 
-  private static String PROGUARD_FULL_PATH = "";
-  private HashMap<String, String> proguardHashMap;
-  private String proguardFileContent;
+    @Override
+    public void apply(Project project) {
+        final ShieldAutoExtension extension = project.getExtensions().create("shieldAuto", ShieldAutoExtension.class, project);
+        DEFAULT_PROGUARD_PATH = extension.getDefaultPath();
+        versionMap = new DependencyVersionMap();
 
-  @Override
-  public void apply(Project project) {
-    proguardHashMap = new HashMap<>();
-    proguardFileContent = "";
+        // local flow
+        ClassLoader classLoader = this.getClass().getClassLoader();
+        InputStream inputStream = classLoader.getResourceAsStream(DEFAULT_XML_PATH);
+        versionMap.initializeWithXML(inputStream);
 
-    final ShieldAutoExtension extension = project.getExtensions().create("shieldAuto", ShieldAutoExtension.class, project);
-    PROGUARD_FULL_PATH = extension.getDefaultPath() + extension.getProguardFilePath();
+        project.afterEvaluate(projec -> {
+            File inputFile = new File(extension.getDefaultPath());
+            projec.getConfigurations().getByName("compile", files -> files.getDependencies().forEach(dependency -> {
+                if (versionMap.containsKey(dependency.getName())) {
+                    String fileContents = "";
 
-    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+                    try {
+                        InputStream proguardStream = this.getClass().getClassLoader().getResourceAsStream(dependency.getName() + "/proguard.txt");
 
-    try {
-      DocumentBuilder db = dbf.newDocumentBuilder();
-      Document doc = db.parse(new File(extension.getXmlMapperFilePath()));
+                        String text = "#### AUTO-GENERATED PROGUARD RULE FOR " + dependency.getName() + " START ####\n";
+                        text += convertStreamToString(proguardStream);
+                        text += "\n#### AUTO-GENERATED PROGUARD RULE FOR " + dependency.getName() + " END   ####\n\n";
 
-      Element shield = doc.getDocumentElement();
-      NodeList list = shield.getElementsByTagName("path");
+                        fileContents = text;
+                        versionMap.put(dependency.getName(), text);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
 
-      for (int i = 0; i < list.getLength(); i++) {
-        Element path = (Element) list.item(i);
-        proguardHashMap.put(path.getAttribute("name"), path.getTextContent());
-      }
-    } catch (Exception exceptions) {
-      exceptions.printStackTrace();
-    }
-
-    project.afterEvaluate(new Action<Project>() {
-      @Override
-      public void execute(Project projec) {
-        File inputFile = new File(extension.getProguardFilePath());
-        projec.getConfigurations().getByName("compile", new Action<Configuration>() {
-          @Override
-          public void execute(Configuration files) {
-            files.getDependencies().forEach(new Consumer<Dependency>() {
-              @Override
-              public void accept(Dependency dependency) {
-                if (proguardHashMap.containsKey(dependency.getName())) {
-                  String fileContents = null;
-
-                  try {
-                    fileContents = readFile(proguardHashMap.get(dependency.getName()), StandardCharsets.UTF_8);
-                  } catch (IOException e) {
-                    e.printStackTrace();
-                  }
-
-                  proguardFileContent += fileContents + "\n";
+                    proguardFileContent += fileContents + "\n";
                 }
-              }
-            });
-          }
+            }));
+
+            try {
+                FileWriter f2 = new FileWriter(inputFile, false);
+                f2.write(proguardFileContent);
+                f2.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
-
-        try {
-          FileWriter f2 = new FileWriter(inputFile, false);
-          f2.write(proguardFileContent);
-          f2.close();
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
-      }
-    });
-  }
-
-  private String readFile(String path, Charset encoding) throws IOException {
-    byte[] encoded = Files.readAllBytes(Paths.get(path));
-    return new String(encoded, encoding);
-  }
-
-  public static class ShieldAutoExtension {
-    String defaultPath = DEFAULT_SHIELD_PATH + DEFAULT_SHIELD_PROGUARD_FILE_NAME;
-
-    public String getDefaultPath() {
-      return defaultPath;
     }
-  }
 
+    private String readFile(String path, Charset encoding) throws IOException {
+        byte[] encoded = Files.readAllBytes(Paths.get(path));
+        return new String(encoded, encoding);
+    }
+
+    private String convertStreamToString(InputStream is) {
+        java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
+        return s.hasNext() ? s.next() : "";
+    }
 }
