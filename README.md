@@ -44,6 +44,9 @@ android {
     }
 ```
 
+# Note
+Currently ShieldAuto is able to check for libraries imported only through compile configuration. (Which is deprecated and should be replaced with implementation, but direct access is not allowed right now.) I would love for additional help with this issue. 
+
 # Supported Libraries
 * [BottomBar](https://github.com/roughike/BottomBar/)
 * [Butterknife](http://jakewharton.github.io/butterknife/)
