@@ -23,6 +23,8 @@ public class ShieldAutoExtension {
     }
 
     public String auto() {
-        return project.getRootDir().getPath() + defaultPath;
+        String defaultPathTest = project.getRootDir().getPath() + "/" + defaultPath;
+        System.out.println("ShieldAuto proguard directory: " + defaultPathTest);
+        return defaultPathTest;
     }
 }
