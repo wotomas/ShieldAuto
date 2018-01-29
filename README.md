@@ -1,4 +1,4 @@
-![icon](./media/autoshield.png) ![name](./media/name.png)
+[<img src="media/autoshield.png" width="400" />]() [<img src="media/name.png" width="200" />]()
 
 # ShieldAuto
 [![CI status](https://img.shields.io/badge/start%20with-why%3F-brightgreen.svg?style=flat)](https://github.com/wotomas/ShieldAuto) ![Download](https://api.bintray.com/packages/wotomas/maven/ShieldAuto/images/download.svg)
