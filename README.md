@@ -1,5 +1,23 @@
 [<img src="media/autoshield.png" width="400" />]() [<img src="media/name.png" width="200" />]()
 
+# Disclaimer
+ - This project is meant for a proof of concept, to check if it is feasible to have a single magic solution for Proguard configurations
+ - Currently its a 0.0.X version. Please don't use it in a real environment. Its terrible.
+ - Basically googled and copied the first result for each proguard. The point I wanted to convey was that when a single source, when crowdsourced enough, could bring value. (And also that most of google’s first result when used without knowledge is valueless)
+ - My imagination of a real case usage in the future would be something like this:
+ ```gradle
+ shieldConfig {  //inside build.config
+    libraries {
+        ...
+        picasso {
+            enableDownloader true
+            useOkhttp3 true
+            ...
+        }
+    }
+}
+ ```
+
 # ShieldAuto
 [![CI status](https://img.shields.io/badge/start%20with-why%3F-brightgreen.svg?style=flat)](https://github.com/wotomas/ShieldAuto) ![Download](https://api.bintray.com/packages/wotomas/maven/ShieldAuto/images/download.svg)
 
